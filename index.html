@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Python vs C# Study Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #0b1020;
+      --panel: #121933;
+      --panel-2: #182242;
+      --text: #e7ecff;
+      --muted: #a8b1d1;
+      --python: #ffd43b;
+      --python-dark: #306998;
+      --csharp: #b26cff;
+      --accent: #63e6be;
+      --border: rgba(255,255,255,0.08);
+      --shadow: rgba(0,0,0,0.35);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(178,108,255,0.15), transparent 30%),
+        radial-gradient(circle at top right, rgba(99,230,190,0.12), transparent 25%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: auto;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 48px;
+      margin-bottom: 40px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 15px 40px var(--shadow);
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 18px;
+      letter-spacing: -2px;
+    }
+
+    .gradient {
+      background: linear-gradient(90deg, var(--python), var(--csharp));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      max-width: 900px;
+      color: var(--muted);
+      font-size: 1.08rem;
+    }
+
+    .tag-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .tag {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .section-title {
+      margin: 60px 0 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .section-title h2 {
+      font-size: 2rem;
+    }
+
+    .section-title .line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, rgba(255,255,255,0.2), transparent);
+    }
+
+    .comparison-grid {
+      display: grid;
+      gap: 24px;
+    }
+
+    .comparison-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 12px 28px var(--shadow);
+    }
+
+    .card-header {
+      padding: 26px 28px 10px;
+    }
+
+    .card-header h3 {
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+    }
+
+    .card-header p {
+      color: var(--muted);
+      font-size: 0.98rem;
+    }
+
+    .languages {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 0;
+      margin-top: 24px;
+    }
+
+    .lang {
+      padding: 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    .lang.python {
+      background: linear-gradient(180deg, rgba(255,212,59,0.07), transparent);
+      border-right: 1px solid var(--border);
+    }
+
+    .lang.csharp {
+      background: linear-gradient(180deg, rgba(178,108,255,0.08), transparent);
+    }
+
+    .lang-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+    }
+
+    .python .dot {
+      background: var(--python);
+      box-shadow: 0 0 15px rgba(255,212,59,0.7);
+    }
+
+    .csharp .dot {
+      background: var(--csharp);
+      box-shadow: 0 0 15px rgba(178,108,255,0.8);
+    }
+
+    pre {
+      background: rgba(0,0,0,0.35);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 16px;
+      padding: 18px;
+      overflow-x: auto;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.94rem;
+      color: #f5f7ff;
+    }
+
+    .note {
+      margin-top: 18px;
+      padding: 16px;
+      background: rgba(99,230,190,0.08);
+      border: 1px solid rgba(99,230,190,0.18);
+      border-radius: 14px;
+      color: #d8fff3;
+      font-size: 0.95rem;
+    }
+
+    .footer {
+      margin-top: 80px;
+      text-align: center;
+      color: var(--muted);
+      padding-bottom: 30px;
+    }
+
+    .footer strong {
+      color: var(--text);
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        padding: 32px;
+      }
+
+      .card-header,
+      .lang {
+        padding: 20px;
+      }
+
+      .lang.python {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <section class="hero">
+      <h1>Python → <span class="gradient">C# Translation Guide</span></h1>
+
+      <p>
+        A side-by-side comparison guide for developers transitioning from Python to C#. Built for people who already understand programming concepts but need to mentally translate syntax, structure, typing, object-oriented patterns, collections, async workflows, and the strange rituals of statically typed civilization.
+      </p>
+
+      <div class="tag-row">
+        <div class="tag">Beginner → Advanced</div>
+        <div class="tag">Python vs C#</div>
+        <div class="tag">Game Dev Friendly</div>
+        <div class="tag">Data Structures</div>
+        <div class="tag">Async / LINQ / OOP</div>
+      </div>
+    </section>
+
+
+    <div class="section-title">
+      <h2>Beginner Fundamentals</h2>
+      <div class="line"></div>
+    </div>
+
+    <div class="comparison-grid">
+
+      <div class="comparison-card">
+        <div class="card-header">
+          <h3>Hello World</h3>
+          <p>The ceremonial tradition every programming language forces upon humanity before allowing progress.</p>
+        </div>
+
+        <div class="languages">
+          <div class="lang python">
+            <div class="lang-title">
+              <span class="dot"></span> Python
+            </div>
+            <pre><code>print("Hello World")</code></pre>
+          </div>
+
+          <div class="lang csharp">
+            <div class="lang-title">
+              <span class="dot"></span> C#
+            </div>
+            <pre><code>Console.WriteLine("Hello World");</code></pre>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="comparison-card">
+        <div class="card-header">
+          <h3>Variables & Types</h3>
+          <p>Python trusts you. C# asks what type everything is before permitting existence.</p>
+        </div>
+
+        <div class="languages">
+          <div class="lang python">
+            <div class="lang-title"><span class="dot"></span> Python</div>
+            <pre><code>x = 10
+name = "Ballsy"
+pi = 3.14</code></pre>
+          </div>
+
+          <div class="lang csharp">
+            <div class="lang-title"><span class="dot"></span> C#</div>
+            <pre><code>int x = 10;
+string name = "Ballsy";
+double pi = 3.14;</code></pre>
+          </div>
+        </div>
+
+        <div class="note">
+          C# uses strong static typing. The compiler catches many mistakes before runtime instead of dramatically exploding later.
+        </div>
+      </div>
+
+
+      <div class="comparison-card">
+        <div class="card-header">
+          <h3>Conditionals</h3>
+          <p>Whitespace vs braces. Ancient war. Neither side will surrender.</p>
+        </div>
+
+        <div class="languages">
+          <div class="lang python">
+            <div class="lang-title"><span class="dot"></span> Python</div>
+            <pre><code>x = 5
+
+if x > 3:
+    print("Big")
+else:
+    print("Small")</code></pre>
+          </div>
+
+          <div class="lang csharp">
+            <div class="lang-title"><span class="dot"></span> C#</div>
+            <pre><code>int x = 5;
+
+if (x > 3)
+{
+    Console.WriteLine("Big");
+}
+else
+{
+    Console.WriteLine("Small");
+}</code></pre>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="comparison-card">
+        <div class="card-header">
+          <h3>Loops</h3>
+          <p>Same logic. Different ceremony.</p>
+        </div>
+
+        <div class="languages">
+          <div class="lang python">
+            <div class="lang-title"><span class="dot"></span> Python</div>
+            <pre><code>for i in range(5):
+    print(i)</code></pre>
+          </div>
+
+          <div class="lang csharp">
+            <div class="lang-title"><span class="dot"></span> C#</div>
+            <pre><code>for (int i = 0; i < 5; i++)
+{
+    Console.WriteLine(i);
+}</code></pre>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="comparison-card">
+        <div class="card-header">
+          <h3>Functions</h3>
+          <p>C# methods require return types because ambiguity apparently offended somebody at Microsoft.</p>
+        </div>
+
+        <div class="languages">
+          <div class="lang python">
+            <div class="lang-title"><span class="dot"></span> Python</div>
+            <pre><code>def add(a, b):
+    return a + b</code></pre>
+          </div>
+
+          <div class="lang csharp">
+            <div class="lang-title"><span class="dot"></span> C#</div>
+            <pre><code>static int Add(int a, int b)
+{
+    return a + b;
+}</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="section-title">
+      <h2>Intermediate Concepts</h2>
+      <div class="line"></div>
+    </div>
+
+    <div class="comparison-grid">
+
+      <div class="comparison-card">
+        <div class="card-header">
+          <h3>Lists / Arrays</h3>
+          <p>Dynamic containers for storing humanity's increasingly questionable data.</p>
+        </div>
+
+        <div class="languages">
+          <div class="lang python">
+            <div class="lang-title"><span class="dot"></span> Python</div>
+            <pre><code>nums = [1, 2, 3]
+nums.append(4)
+
+print(nums[0])</code></pre>
+          </div>
+
+          <div class="lang csharp">
+            <div class="lang-title"><span class="dot"></span> C#</div>
+            <pre><code>List&lt;int&gt; nums = new List&lt;int&gt; {1,2,3};
+
+nums.Add(4);
+
+Console.WriteLine(nums[0]);</code></pre>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="comparison-card">
+        <div class="card-header">
+          <h3>Dictionaries / Hash Maps</h3>
+          <p>Key-value storage. Civilization built databases and social media from this concept. Regrettably.</p>
+        </div>
+
+        <div class="languages">
+          <div class="lang python">
+            <div class="lang-title"><span class="dot"></span> Python</div>
+            <pre><code>data = {
+    "name": "Alex",
+    "age": 22
+}
+
+print(data["name"])</code></pre>
+          </div>
+
+          <div class="lang csharp">
+            <div class="lang-title"><span class="dot"></span> C#</div>
+            <pre><code>Dictionary&lt;string, int&gt; ages =
+    new Dictionary&lt;string, int&gt;();
+
+ages["Alex"] = 22;
+
+Console.WriteLine(ages["Alex"]);</code></pre>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="comparison-card">
+        <div class="card-header">
+          <h3>Classes & Objects</h3>
+          <p>C# leans heavily into object-oriented structure. Unity especially worships this model.</p>
+        </div>
+
+        <div class="languages">
+          <div class="lang python">
+            <div class="lang-title"><span class="dot"></span> Python</div>
+            <pre><code>class Player:
+    def __init__(self, name):
+        self.name = name
+
+    def greet(self):
+        print(self.name)
+
+p = Player("John")
+p.greet()</code></pre>
+          </div>
+
+          <div class="lang csharp">
+            <div class="lang-title"><span class="dot"></span> C#</div>
+            <pre><code>class Player
+{
+    public string name;
+
+    public Player(string name)
+    {
+        this.name = name;
+    }
+
+    public void Greet()
+    {
+        Console.WriteLine(name);
+    }
+}
+
+Player p = new Player("John");
+p.Greet();</code></pre>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="comparison-card">
+        <div class="card-header">
+          <h3>Exception Handling</h3>
+          <p>Because users will absolutely input “potato” into numeric fields.</p>
+        </div>
+
+        <div class="languages">
+          <div class="lang python">
+            <div class="lang-title"><span class="dot"></span> Python</div>
+            <pre><code>try:
+    x = 10 / 0
+except:
+    print("Error")</code></pre>
+          </div>
+
+          <div class="lang csharp">
+            <div class="lang-title"><span class="dot"></span> C#</div>
+            <pre><code>try
+{
+    int x = 10 / 0;
+}
+catch
+{
+    Console.WriteLine("Error");
+}</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="section-title">
+      <h2>Advanced Concepts</h2>
+      <div class="line"></div>
+    </div>
+
+    <div class="comparison-grid">
+
+      <div class="comparison-card">
+        <div class="card-header">
+          <h3>List Comprehension vs LINQ</h3>
+          <p>Python compresses elegance into one line. C# replies with LINQ and enterprise-grade determination.</p>
+        </div>
+
+        <div class="languages">
+          <div class="lang python">
+            <div class="lang-title"><span class="dot"></span> Python</div>
+            <pre><code>nums = [1,2,3,4,5]
+
+evens = [x for x in nums if x % 2 == 0]
+
+print(evens)</code></pre>
+          </div>
+
+          <div class="lang csharp">
+            <div class="lang-title"><span class="dot"></span> C#</div>
+            <pre><code>List&lt;int&gt; nums =
+    new List&lt;int&gt; {1,2,3,4,5};
+
+var evens = nums
+    .Where(x =&gt; x % 2 == 0)
+    .ToList();
+
+Console.WriteLine(
+    string.Join(", ", evens)
+);</code></pre>
+          </div>
+        </div>
+
+        <div class="note">
+          LINQ becomes extremely powerful for filtering, transforming, grouping, and querying collections.
+        </div>
+      </div>
+
+
+      <div class="comparison-card">
+        <div class="card-header">
+          <h3>Recursion</h3>
+          <p>Eventually every CS student writes Fibonacci recursively and accidentally benchmarks sadness.</p>
+        </div>
+
+        <div class="languages">
+          <div class="lang python">
+            <div class="lang-title"><span class="dot"></span> Python</div>
+            <pre><code>def factorial(n):
+    if n == 1:
+        return 1
+
+    return n * factorial(n - 1)</code></pre>
+          </div>
+
+          <div class="lang csharp">
+            <div class="lang-title"><span class="dot"></span> C#</div>
+            <pre><code>static int Factorial(int n)
+{
+    if (n == 1)
+    {
+        return 1;
+    }
+
+    return n * Factorial(n - 1);
+}</code></pre>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="comparison-card">
+        <div class="card-header">
+          <h3>Async / Await</h3>
+          <p>Modern applications survive by pretending multiple things happen simultaneously.</p>
+        </div>
+
+        <div class="languages">
+          <div class="lang python">
+            <div class="lang-title"><span class="dot"></span> Python</div>
+            <pre><code>import asyncio
+
+async def greet():
+    await asyncio.sleep(1)
+    print("Hello")
+
+asyncio.run(greet())</code></pre>
+          </div>
+
+          <div class="lang csharp">
+            <div class="lang-title"><span class="dot"></span> C#</div>
+            <pre><code>using System.Threading.Tasks;
+
+static async Task Greet()
+{
+    await Task.Delay(1000);
+    Console.WriteLine("Hello");
+}
+
+await Greet();</code></pre>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="comparison-card">
+        <div class="card-header">
+          <h3>BFS Graph Traversal</h3>
+          <p>Because eventually every programmer ends up wandering through graphs like a confused dungeon crawler.</p>
+        </div>
+
+        <div class="languages">
+          <div class="lang python">
+            <div class="lang-title"><span class="dot"></span> Python</div>
+            <pre><code>from collections import deque
+
+queue = deque([0])
+visited = set()
+
+while queue:
+    node = queue.popleft()
+
+    if node in visited:
+        continue
+
+    visited.add(node)
+
+    for neigh in graph[node]:
+        queue.append(neigh)</code></pre>
+          </div>
+
+          <div class="lang csharp">
+            <div class="lang-title"><span class="dot"></span> C#</div>
+            <pre><code>Queue&lt;int&gt; queue =
+    new Queue&lt;int&gt;();
+
+HashSet&lt;int&gt; visited =
+    new HashSet&lt;int&gt;();
+
+queue.Enqueue(0);
+
+while (queue.Count &gt; 0)
+{
+    int node = queue.Dequeue();
+
+    if (visited.Contains(node))
+        continue;
+
+    visited.Add(node);
+
+    foreach (int neigh in graph[node])
+    {
+        queue.Enqueue(neigh);
+    }
+}</code></pre>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="comparison-card">
+        <div class="card-header">
+          <h3>Properties</h3>
+          <p>One of the places where C# becomes genuinely elegant instead of merely bureaucratic.</p>
+        </div>
+
+        <div class="languages">
+          <div class="lang python">
+            <div class="lang-title"><span class="dot"></span> Python</div>
+            <pre><code>class Player:
+    def __init__(self):
+        self._health = 100
+
+    @property
+    def health(self):
+        return self._health</code></pre>
+          </div>
+
+          <div class="lang csharp">
+            <div class="lang-title"><span class="dot"></span> C#</div>
+            <pre><code>class Player
+{
+    public int Health { get; private set; }
+        = 100;
+}</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="section-title">
+      <h2>Core Mindset Differences</h2>
+      <div class="line"></div>
+    </div>
+
+    <div class="comparison-card">
+      <div class="card-header">
+        <h3>Python vs C# Philosophy</h3>
+        <p>Different tools. Different ecosystems. Same inevitable debugging session at midnight.</p>
+      </div>
+
+      <div class="languages">
+
+        <div class="lang python">
+          <div class="lang-title"><span class="dot"></span> Python</div>
+
+          <ul style="padding-left: 20px; color: var(--muted); display:flex; flex-direction:column; gap:10px;">
+            <li>Concise and flexible</li>
+            <li>Dynamic typing</li>
+            <li>Rapid scripting and prototyping</li>
+            <li>Very readable syntax</li>
+            <li>Popular in AI, automation, and data science</li>
+          </ul>
+        </div>
+
+        <div class="lang csharp">
+          <div class="lang-title"><span class="dot"></span> C#</div>
+
+          <ul style="padding-left: 20px; color: var(--muted); display:flex; flex-direction:column; gap:10px;">
+            <li>Structured and explicit</li>
+            <li>Strong static typing</li>
+            <li>Excellent tooling and IDE support</li>
+            <li>Very strong object-oriented design</li>
+            <li>Popular in game dev, enterprise apps, and backend systems</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="footer">
+      <p>
+        Built for developers transitioning from <strong>Python</strong> to <strong>C#</strong>. <br>
+        May your semicolons be balanced and your null references merciful.
+      </p>
+    </div>
+
+  </div>
+
+</body>
+</html>
