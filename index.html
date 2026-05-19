@@ -735,6 +735,143 @@ while (queue.Count &gt; 0)
 
 
     <div class="section-title">
+      <h2>Game Dev (Unity) Basics</h2>
+      <div class="line"></div>
+    </div>
+
+    <div class="comparison-grid">
+
+      <div class="comparison-card">
+        <div class="card-header">
+          <h3>The Game Loop</h3>
+          <p>Unity calls Update() automatically every frame. In Python (e.g., Pygame) you often manage the infinite while loop manually.</p>
+        </div>
+
+        <div class="languages">
+          <div class="lang python">
+            <div class="lang-title"><span class="dot"></span> Python (Pygame)</div>
+            <pre><code>running = True
+while running:
+    # Process input
+    # Update game state
+    update()
+    
+    # Render frame</code></pre>
+          </div>
+
+          <div class="lang csharp">
+            <div class="lang-title"><span class="dot"></span> C# (Unity)</div>
+            <pre><code>public class Player : MonoBehaviour
+{
+    void Update()
+    {
+        // Unity calls this method
+        // once per frame automatically.
+    }
+}</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="comparison-card">
+        <div class="card-header">
+          <h3>Vectors & Movement</h3>
+          <p>Transforming objects in 3D space. Unity gives us Vector3 and Time.deltaTime. Python relies on manual calculations or separate libraries.</p>
+        </div>
+
+        <div class="languages">
+          <div class="lang python">
+            <div class="lang-title"><span class="dot"></span> Python</div>
+            <pre><code># Delta time must be calculated manually
+speed = 5.0
+velocity_x = speed * delta_time
+position[0] += velocity_x</code></pre>
+          </div>
+
+          <div class="lang csharp">
+            <div class="lang-title"><span class="dot"></span> C# (Unity)</div>
+            <pre><code>public float speed = 5f;
+
+void Update()
+{
+    transform.Translate(Vector3.right * speed * Time.deltaTime);
+}</code></pre>
+          </div>
+        </div>
+        
+        <div class="note">
+          Unity's Vector3 handles all 3D math internally without manual coordinate indexing.
+        </div>
+      </div>
+
+      <div class="comparison-card">
+        <div class="card-header">
+          <h3>Spawning Objects</h3>
+          <p>Instantiate creates copies of objects (prefabs) into the game world.</p>
+        </div>
+
+        <div class="languages">
+          <div class="lang python">
+            <div class="lang-title"><span class="dot"></span> Python</div>
+            <pre><code>bullets = []
+
+def shoot():
+    # Instantiate generally involves 
+    # creating a class instance
+    new_bullet = Bullet(x, y)
+    bullets.append(new_bullet)</code></pre>
+          </div>
+
+          <div class="lang csharp">
+            <div class="lang-title"><span class="dot"></span> C# (Unity)</div>
+            <pre><code>public GameObject bulletPrefab;
+
+void Shoot()
+{
+    // Clones the prefab and places it in the scene
+    Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+}</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="comparison-card">
+        <div class="card-header">
+          <h3>Component Ecosystem</h3>
+          <p>Finding other scripts attached to an object. C# utilizes Generics heavily for this.</p>
+        </div>
+
+        <div class="languages">
+          <div class="lang python">
+            <div class="lang-title"><span class="dot"></span> Python</div>
+            <pre><code># Python usually stores components 
+# as attributes or in a dictionary
+class Enemy:
+    def __init__(self):
+        self.health = HealthComponent()
+
+enemy.health.take_damage(10)</code></pre>
+          </div>
+
+          <div class="lang csharp">
+            <div class="lang-title"><span class="dot"></span> C# (Unity)</div>
+            <pre><code>void Attack(GameObject enemy)
+{
+    // Search the object for a specific type
+    Health health = enemy.GetComponent&lt;Health&gt;();
+    if (health != null)
+    {
+        health.TakeDamage(10);
+    }
+}</code></pre>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="section-title">
       <h2>Core Mindset Differences</h2>
       <div class="line"></div>
     </div>
