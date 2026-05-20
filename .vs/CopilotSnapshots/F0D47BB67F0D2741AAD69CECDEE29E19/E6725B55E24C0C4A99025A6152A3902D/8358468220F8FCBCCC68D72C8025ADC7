@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -310,7 +310,6 @@
       <button class="tab-btn" onclick="openTab(event, 'physics')">Physics</button>
       <button class="tab-btn" onclick="openTab(event, 'graphics')">Graphics</button>
       <button class="tab-btn" onclick="openTab(event, 'tools')">Tools & Editor</button>
-      <button class="tab-btn" onclick="openTab(event, 'documentation')">Documentation</button>
     </nav>
 
     <div id="basics" class="tab-content active">
@@ -1253,139 +1252,6 @@ public class SpawnerWindow : EditorWindow
             </div>
           </div>
         </div>
-      </div>
-    </div>
-
-    <div id="documentation" class="tab-content">
-      <div class="section-title">
-        <h2>Unity C# Documentation Reference</h2>
-        <div class="line"></div>
-      </div>
-      <p style="color: var(--muted); margin-bottom: 24px; max-width: 900px; font-size: 1.05rem;">
-        A handy cheat sheet of the most common built-in Unity C# classes, methods, and properties you'll use constantly in game development.
-      </p>
-
-      <div class="comparison-grid">
-
-        <div class="comparison-card">
-          <div class="card-header">
-            <h3>1. MonoBehaviour Lifecycle</h3>
-            <p>The base class from which every Unity script derives. These methods are invoked automatically by the engine at specific times.</p>
-          </div>
-          <div class="languages" style="grid-template-columns: 1fr;">
-            <div class="lang csharp" style="border-radius: 0 0 24px 24px;">
-              <div class="lang-title"><span class="dot"></span> C# Core Methods</div>
-              <pre><code>// Initialization
-void Awake() { /* Called extremely early, right after instantiation */ }
-void Start() { /* Called before the first frame update (use to grab dependencies) */ }
-
-// Execution
-void Update() { /* Called once per frame. Use for input and visuals. */ }
-void FixedUpdate() { /* Called at fixed intervals. Use for physics calculations. */ }
-void LateUpdate() { /* Called AFTER all Updates. Great for camera follow logic. */ }
-
-// Teardown
-void OnDestroy() { /* Clean up events and memory here */ }</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <div class="comparison-card">
-          <div class="card-header">
-            <h3>2. GameObject & Components</h3>
-            <p>Methods for manipulating the core entities of your scenes. Use them to hook scripts together and control rendering.</p>
-          </div>
-          <div class="languages" style="grid-template-columns: 1fr;">
-            <div class="lang csharp" style="border-radius: 0 0 24px 24px;">
-              <div class="lang-title"><span class="dot"></span> C# Core Methods</div>
-              <pre><code>// Fetching other scripts or builtin components connected to this object
-Rigidbody rb = GetComponent&lt;Rigidbody&gt;();
-if (TryGetComponent&lt;Health&gt;(out Health hp)) hp.Damage();
-
-// Spawning and Destroying items in the scene
-GameObject clone = Instantiate(prefab, spawnPoint, Quaternion.identity);
-Destroy(gameObject, 2f); // Destroys this object after a 2-second delay
-
-// Disabling/Enabling the entire object
-gameObject.SetActive(false); // Hides it and stops Update() from processing
-bool isActive = gameObject.activeSelf;</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <div class="comparison-card">
-          <div class="card-header">
-            <h3>3. Transform & Vectors</h3>
-            <p>Manipulating position, rotation, and scale in 3D (or 2D) space using Unity's Coordinate system.</p>
-          </div>
-          <div class="languages" style="grid-template-columns: 1fr;">
-            <div class="lang csharp" style="border-radius: 0 0 24px 24px;">
-              <div class="lang-title"><span class="dot"></span> C# Core Methods</div>
-              <pre><code>// Current World State
-Vector3 pos = transform.position;
-Quaternion rot = transform.rotation;
-
-// Local Directions (Dependent on where the object is facing)
-Vector3 fwd = transform.forward; // e.g., Shoot bullet in this direction
-Vector3 up = transform.up;       // e.g., Apply hover force
-
-// Modifiers (Usually applied smoothly over Time.deltaTime)
-transform.Translate(Vector3.forward * speed * Time.deltaTime);
-transform.Rotate(Vector3.up, 90f);
-
-// Setting relationships
-transform.SetParent(newParentTransform);</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <div class="comparison-card">
-          <div class="card-header">
-            <h3>4. Time & Mathf Utilities</h3>
-            <p>Controlling game pacing, ensuring framerate independence, and solving game-math logic easily.</p>
-          </div>
-          <div class="languages" style="grid-template-columns: 1fr;">
-            <div class="lang csharp" style="border-radius: 0 0 24px 24px;">
-              <div class="lang-title"><span class="dot"></span> C# Core Methods</div>
-              <pre><code>// Time Constants
-float dt = Time.deltaTime; // Time since last frame (Multiply by this to decouple from FPS)
-Time.timeScale = 0.5f;     // Slow motion! Or 0 to pause the game.
-
-// Math Operations
-float clampedHealth = Mathf.Clamp(currentHP, 0, 100);    // Limits a value
-float blend = Mathf.Lerp(0f, 10f, 0.5f);                 // Result: 5 (Blends A to B)
-float distance = Mathf.Abs(-10f);                        // Absolute value
-float bobbing = Mathf.Sin(Time.time);                    // Sine wave (-1 to +1 over time)</code></pre>
-            </div>
-          </div>
-        </div>
-
-        <div class="comparison-card">
-          <div class="card-header">
-            <h3>5. Physics (PhysX / Rigidbody)</h3>
-            <p>Interacting with the built-in physics engine for forces, impacts, and laser-pointers (raycasts).</p>
-          </div>
-          <div class="languages" style="grid-template-columns: 1fr;">
-            <div class="lang csharp" style="border-radius: 0 0 24px 24px;">
-              <div class="lang-title"><span class="dot"></span> C# Core Methods</div>
-              <pre><code>Rigidbody rb = GetComponent&lt;Rigidbody&gt;();
-
-// Applying Forces (Should be done in FixedUpdate)
-rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); // Instant bump
-rb.velocity = new Vector3(moveX, rb.velocity.y, moveZ); // Direct movement
-
-// Raycasting (Shooting an invisible laser to check what it hits)
-if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, 100f))
-{
-    Debug.Log("Laser hit: " + hit.collider.name);
-}
-
-// Area Checking
-Collider[] hitObjects = Physics.OverlapSphere(explosionCenter, radius);</code></pre>
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
 
